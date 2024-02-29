@@ -1,0 +1,99 @@
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def introduce(self):
+        print(f"Name: {self.name}, Age: {self.age}")
+
+
+class Employee(Person):
+    def __init__(self, name, age, position):
+        super().__init__(name, age)
+        self.position = position
+
+    def work(self):
+        print(f"{self.name} works as a {self.position}")
+
+
+class Student(Person):
+    def __init__(self, name, age, student_id):
+        super().__init__(name, age)
+        self.student_id = student_id
+
+    def study(self):
+        print(f"{self.name} with ID {self.student_id} is studying")
+
+
+class University:
+    def __init__(self):
+        self.employees = []
+        self.students = []
+
+    def add_employee(self, employee):
+        self.employees.append(employee)
+
+    def add_student(self, student):
+        self.students.append(student)
+
+    def remove_employee(self, name_or_id):
+        for employee in self.employees:
+            if employee.name == name_or_id or employee.position == name_or_id:
+                self.employees.remove(employee)
+                print(f"{name_or_id} removed from employees.")
+                return
+        print(f"No employee found with name or position {name_or_id}.")
+
+    def remove_student(self, name_or_id):
+        for student in self.students:
+            if student.name == name_or_id or student.student_id == name_or_id:
+                self.students.remove(student)
+                print(f"{name_or_id} removed from students.")
+                return
+        print(f"No student found with name or ID {name_or_id}.")
+
+    def find_person(self, name_or_id):
+        for employee in self.employees:
+            if employee.name == name_or_id or employee.position == name_or_id:
+                return employee
+        for student in self.students:
+            if student.name == name_or_id or student.student_id == name_or_id:
+                return student
+        return None
+
+    def show_info(self):
+        print("Employees:")
+        for employee in self.employees:
+            employee.introduce()
+        print("Students:")
+        for student in self.students:
+            student.introduce()
+
+
+# Приклад використання:
+uni = University()
+
+# Додавання працівників та студентів
+emp1 = Employee("John", 35, "Professor")
+emp2 = Employee("Alice", 28, "Assistant")
+stud1 = Student("Bob", 20, "2021001")
+stud2 = Student("Eve", 22, "2021002")
+
+uni.add_employee(emp1)
+uni.add_employee(emp2)
+uni.add_student(stud1)
+uni.add_student(stud2)
+
+# Виведення інформації про всіх працівників та студентів
+uni.show_info()
+
+# Видалення працівника та студента
+uni.remove_employee("Alice")
+uni.remove_student("2021001")
+
+# Пошук та виведення інформації про студента за ім'ям
+person = uni.find_person("Bob")
+if person:
+    person.introduce()
+else:
+    print("Person not found.")
